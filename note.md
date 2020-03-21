@@ -377,3 +377,12 @@ actionCreator => middleware 处理生成新的action => 手动dispatch(actionCre
 1. query
 2. 动态路由 /path/:param
 3. 使用state 隐式传参 埋点 埋下统计的点
+
+## react-app-rewired
+
+## 建立新的项目
+* yarn create react-app antd-demo --template typescript 
+* 这个使用react-script来绑定webpack 并进行默认的配置
+* 如果没有特殊情况可以不需要修改
+2. 
+    
