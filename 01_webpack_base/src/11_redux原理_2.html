@@ -1,0 +1,71 @@
+<body>
+    <div>
+        <button onclick="store.dispatch({type: 'substract', n :2 })">-</button>
+        <span id="countDisplay"></span>
+        <button onclick="store.dispatch({type: 'add', n :2 })">+</button>
+    </div>
+    <script src="https://cdn.bootcss.com/redux/4.0.5/redux.js"}></script>
+    <script>
+        const countDisplay = document.querySelector('#countDisplay');
+
+        const countState = {
+            count : 10
+        }
+
+        const changeState = (state, action) => {
+            if(!state) {
+                return countState;
+            }
+
+            switch (action.type) {
+                default:
+                    return state;
+                    break;
+                case 'substract':
+                    return {
+//                        ...state,
+                        count: state.count - action.n
+                    };
+                    break;
+                case 'add':
+                    return {
+//                        ...state,
+                        count: state.count + action.n
+                    };
+                    break;
+            }
+        };
+
+
+        // 这个和
+        const createStore = (changeState) => {
+            let state = null;
+            const getState = () => state;
+            const listeners = [];
+            const subscribe = (listener) => listeners.push(listener);
+            const dispatch = (action) => {
+                state = changeState(state, action);
+                listeners.forEach(l => l());
+            };
+
+            dispatch({});
+                return {
+                    getState,
+                    dispatch,
+                    subscribe
+                }
+
+        };
+
+       const store = Redux.createStore(changeState);
+
+        const renderCount = () => {
+            countDisplay.innerHTML = store.getState().count;
+        };
+        renderCount();
+
+        store.subscribe(renderCount);
+
+    </script>
+
+</body>

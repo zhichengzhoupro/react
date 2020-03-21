@@ -1,0 +1,40 @@
+<body>
+    <div>
+        <button onclick="dispatch({type: 'substract', n :2 })">-</button>
+        <span id="countDisplay">10</span>
+        <button onclick="dispatch({type: 'add', n :2 })">+</button>
+    </div>
+
+    <script>
+        const countDisplay = document.querySelector('#countDisplay');
+
+        const countState = {
+            count : 10
+        }
+
+        const renderCount = (state) => {
+            countDisplay.innerHTML = state.count;
+        }
+
+        renderCount(countState);
+
+        const changeState = (action) => {
+            switch (action.type) {
+                default:
+                    break;
+                case 'substract':
+                    countState.count -= action.n;
+                case 'add':
+                    countState.count += action.n;
+            }
+        }
+
+        const dispatch =(action) =>  {
+
+            changeState(action);
+            renderCount(countState);
+        }
+
+    </script>
+
+</body>
