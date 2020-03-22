@@ -1,0 +1,17 @@
+.qf-header {
+  padding: 0 36px;
+  background-color: white;
+  height: 120px;
+  border-bottom: 1px solid #666666;
+  .qf-menu {
+    width: 500px
+  }
+  .qf-logo {
+    float: left;
+    height: 96px;
+    width: 80px;
+    img {
+      max-height: 100%;
+    }
+  }
+}
