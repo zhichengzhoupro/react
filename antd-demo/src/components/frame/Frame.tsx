@@ -1,96 +1,112 @@
 import React, {Component} from 'react';
-import { Layout, Menu, Breadcrumb } from 'antd';
-import { UserOutlined, LaptopOutlined, NotificationOutlined } from '@ant-design/icons';
+import {Layout, Menu, Breadcrumb} from 'antd';
 import './Frame.scss';
+import {adminRoutes, Route} from '../../routers/Router'
+import {RouteComponentProps, withRouter} from 'react-router-dom'
+import {StaticContext, match} from "react-router";
 
-const { SubMenu } = Menu;
-const { Header, Content, Sider } = Layout;
+const {SubMenu} = Menu;
+const {Header, Content, Sider} = Layout;
+
+interface FrameProps extends RouteComponentProps {
+    menus: any
+}
+
+interface FrameState {
+    iconComponents: any[]
+}
+
+class Frame extends Component<FrameProps, FrameState> {
+
+    constructor(props: FrameProps) {
+        super(props);
+        this.state = {
+            iconComponents: []
+        }
+    }
+
+    test = (e: any) => {
+        this.props.history.push(e.key);
+    }
+
+    componentDidMount(): void {
+        this.props.menus.map((r: Route) => {
+            const {iconComponent} = r;
+            iconComponent().then((resp: any) => {
+                this.setState(state => {
+                    const iconComponents = state.iconComponents.concat({
+                        pathname: r.pathName,
+                        component: resp.default
+                    });
+                    return {
+                        iconComponents
+                    };
+                })
+            })
+        })
+    }
 
 
-class Frame extends Component {
     render() {
         return (
 
-                <Layout>
-                    <Header className="header qf-header">
-                        <div className="qf-logo" >
-                            <img src='/images/logo.png'/>
-                        </div>
+            <Layout>
+                <Header className="header qf-header">
+                    <div className="qf-logo">
+                        <img src='/images/logo.png'/>
+                    </div>
 
-                    </Header>
-                    <Layout>
-                        <Sider width={200} className="site-layout-background">
-                            <Menu
-                                mode="inline"
-                                defaultSelectedKeys={['1']}
-                                defaultOpenKeys={['sub1']}
-                                style={{ height: '100%', borderRight: 0 }}
-                            >
-                                <SubMenu
-                                    key="sub1"
-                                    title={
-                                        <span>
-                <UserOutlined />
-                subnav 1
-              </span>
+                </Header>
+                <Layout>
+                    <Sider width={200} className="site-layout-background">
+                        <Menu
+                            mode="inline"
+                            defaultSelectedKeys={[this.props.location.pathname]}
+                            defaultOpenKeys={['sub1']}
+                            style={{height: '100%', borderRight: 0}}
+                        >
+                            {
+                                this.props.menus.map((r: Route) => {
+                                        return (
+                                            <Menu.Item key={r.pathName} onClick={this.test}>
+                                                {
+                                                    this.state.iconComponents.find(ic => ic.pathname === r.pathName) ?
+                                                        this.state.iconComponents.find(ic => ic.pathname === r.pathName).component.render() : ''
+                                                }
+                                                {r.title}
+                                            </Menu.Item>
+                                        )
                                     }
-                                >
-                                    <Menu.Item key="1">option1</Menu.Item>
-                                    <Menu.Item key="2">option2</Menu.Item>
-                                    <Menu.Item key="3">option3</Menu.Item>
-                                    <Menu.Item key="4">option4</Menu.Item>
-                                </SubMenu>
-                                <SubMenu
-                                    key="sub2"
-                                    title={
-                                        <span>
-                <LaptopOutlined />
-                subnav 2
-              </span>
-                                    }
-                                >
-                                    <Menu.Item key="5">option5</Menu.Item>
-                                    <Menu.Item key="6">option6</Menu.Item>
-                                    <Menu.Item key="7">option7</Menu.Item>
-                                    <Menu.Item key="8">option8</Menu.Item>
-                                </SubMenu>
-                                <SubMenu
-                                    key="sub3"
-                                    title={
-                                        <span>
-                <NotificationOutlined />
-                subnav 3
-              </span>
-                                    }
-                                >
-                                    <Menu.Item key="9">option9</Menu.Item>
-                                    <Menu.Item key="10">option10</Menu.Item>
-                                    <Menu.Item key="11">option11</Menu.Item>
-                                    <Menu.Item key="12">option12</Menu.Item>
-                                </SubMenu>
-                            </Menu>
-                        </Sider>
-                        <Layout style={{ padding: '0 24px 24px' }}>
-                            <Breadcrumb style={{ margin: '16px 0' }}>
-                                <Breadcrumb.Item>Home</Breadcrumb.Item>
-                                <Breadcrumb.Item>List</Breadcrumb.Item>
-                                <Breadcrumb.Item>App</Breadcrumb.Item>
-                            </Breadcrumb>
-                            <Content
-                                className="site-layout-background"
-                                style={{
-                                    padding: 24,
-                                    margin: 0,
-                                    minHeight: 280,
-                                }}
-                            >
-                                {this.props.children}
-                            </Content>
-                        </Layout>
+                                )
+                            }
+
+                        </Menu>
+
+
+                    </Sider>
+                    <Layout style={{padding: '0 24px 24px'}}>
+                        <Breadcrumb style={{margin: '16px 0'}}>
+                            {
+                                this.props.location.pathname.split("/").filter(p => p !== "").map(path => {
+                                    return <Breadcrumb.Item key={path}>{path}</Breadcrumb.Item>
+                                })
+                            }
+                        </Breadcrumb>
+                        <Content
+                            className="site-layout-background"
+                            style={{
+                                padding: 24,
+                                margin: 0,
+                                minHeight: 280,
+                            }}
+                        >
+                            {this.props.children}
+                        </Content>
                     </Layout>
                 </Layout>
+            </Layout>
         );
     }
 }
 
-export default Frame;
+export default withRouter(Frame);

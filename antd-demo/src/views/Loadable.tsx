@@ -26,7 +26,6 @@ const Loadable =  ({
             // import 的结果 所以是一个then
             Loader().then(
                 (resp: any) => {
-
                     this.setState({
                         LoadedComponent : resp.default
                     })

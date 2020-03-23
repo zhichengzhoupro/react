@@ -8,7 +8,7 @@ import {
 } from '../views'
 
 
-export const mainRouter = [
+export const mainRoutes = [
     {
         pathName : '/404',
         component: NotFound
@@ -19,22 +19,46 @@ export const mainRouter = [
     }
 ];
 
-export const adminRouter = [
+export const adminRoutes: Route[] = [
     {
         pathName : '/admin/dashboard',
-        component: DashBoard
-    },
-    {
-        pathName : '/admin/settings',
-        component: Settings
+        component: DashBoard,
+        title: "DashBoard",
+        iconComponent: () =>  import('@ant-design/icons/DashboardOutlined'),
+        isNav: true,
+        exact: false
     },
     {
         pathName : '/admin/article',
         component: Article,
-        exact: true
+        exact: true,
+        title: "Articles",
+        iconComponent: () =>  import('@ant-design/icons/UnorderedListOutlined'),
+        isNav: true
     },
     {
         pathName : '/admin/article/edit/:id',
-        component: ArticleEdit
-    }
+        component: ArticleEdit,
+        isNav :false,
+        exact: false,
+        title: '',
+        iconComponent:''
+    },
+    {
+        pathName : '/admin/settings',
+        component: Settings,
+        title: "Settings",
+        iconComponent: () =>  import('@ant-design/icons/SettingOutlined'),
+        isNav: true,
+        exact: false
+    },
 ];
+
+export interface Route {
+    pathName : string;
+    component: any;
+    title: string,
+    iconComponent: any;
+    isNav: boolean;
+    exact: boolean;
+}
