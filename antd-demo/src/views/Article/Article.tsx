@@ -1,42 +1,53 @@
 import React, {Component} from 'react';
 import {Button, Card, Table} from "antd";
+import {getArticles} from "../../services/service";
 
-class Article extends Component {
-    state = {
-         dataSource : [
-            {
-                key: '1',
-                name: '胡彦斌',
-                age: 32,
-                address: '西湖区湖底公园1号',
-            },
-            {
-                key: '2',
-                name: '胡彦祖',
-                age: 42,
-                address: '西湖区湖底公园1号',
-            },
-        ],
+interface ArticleProps {
 
-     columns : [
-        {
-            title: '姓名',
-            dataIndex: 'name',
-            key: 'name',
-        },
-        {
-            title: '年龄',
-            dataIndex: 'age',
-            key: 'age',
-        },
-        {
-            title: '住址',
-            dataIndex: 'address',
-            key: 'address',
-        },
-    ]
+}
 
+interface ArticleState {
+    dataSource:  any[],
+    columns:  any[],
+    total: number
+}
+
+class Article extends Component<ArticleProps, ArticleState>{
+
+    constructor(props: any) {
+        super(props);
+        this.state = {
+            dataSource : [],
+            columns : [
+
+            ],
+            total: 0
+        }
     }
+
+
+    componentDidMount(): void {
+        this.getArticles();
+    }
+
+    private getArticles() {
+        getArticles({}).then((resp: any) => {
+            const columnKeys = Object.keys(resp.list[0]);
+            const columns = columnKeys.map( (ck:string) => {
+                return {
+                    title: ck,
+                    dataIndex: ck,
+                    key: ck,
+                }
+            })
+            this.setState({
+                dataSource: resp.list,
+                columns: columns,
+                total: resp.total
+            })
+        })
+    }
+
     render() {
 
         return (
@@ -45,7 +56,7 @@ class Article extends Component {
                     extra={<Button>Export Excel</Button>}
                     title="Article List"
                     bordered={false} >
-                    <Table dataSource={this.state.dataSource} columns={this.state.columns} />;
+                    <Table dataSource={this.state.dataSource} columns={this.state.columns} rowKey='id' pagination={{total: this.state.total}}/>;
                 </Card>
             </div>
         );
@@ -53,3 +64,4 @@ class Article extends Component {
 }
 
 export default Article;
+
