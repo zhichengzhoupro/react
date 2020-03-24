@@ -1,4 +1,5 @@
-import React, {Component} from 'react';
+
+import React, {Component} from "react";
 import {Layout, Menu, Breadcrumb} from 'antd';
 import './Frame.scss';
 import {adminRoutes, Route} from '../../routers/Router'
@@ -100,7 +101,7 @@ class Frame extends Component<FrameProps, FrameState> {
                                 minHeight: 280,
                             }}
                         >
-                            {this.props.children}
+                                {this.props.children}
                         </Content>
                     </Layout>
                 </Layout>
@@ -108,5 +109,4 @@ class Frame extends Component<FrameProps, FrameState> {
         );
     }
 }
-
 export default withRouter(Frame);
