@@ -398,7 +398,34 @@ export default withRouter(Article);
 ```javascript 1.6
 this.props.history.push(`/admin/article/edit/${record.id}`)
 ```
+### 在代码中得到路由参数
+* RouteComponentProps 给定制一个接口范型 这个接口范型 必须满足有一个name属性 ，然后我们可以加上自己的属性
+```javascript 1.6
+interface MatchParams {
+    name: string;
+    id: string;
+}
 
+interface ArticleEditProps extends RouteComponentProps<MatchParams> {
+
+}
+
+
+interface ArticleState {
+
+}
+class ArticleEdit extends Component<ArticleEditProps, ArticleState> {
+
+    constructor(articleEditProps: ArticleEditProps) {
+        super(articleEditProps);
+    }
+
+    componentDidMount(): void {
+        console.log(this.props.match.params.id);
+       // getArticleById(this.props.match.params)
+    }
+}
+```
 ## react-app-rewired
 
 ## 建立新的项目

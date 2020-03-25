@@ -12,7 +12,8 @@ interface FrameProps extends RouteComponentProps {
 }
 
 interface FrameState {
-    iconComponents: any[]
+    iconComponents: any[],
+    defaultSelectedMenuRoute: string
 }
 
 class Frame extends Component<FrameProps, FrameState> {
@@ -20,7 +21,13 @@ class Frame extends Component<FrameProps, FrameState> {
     constructor(props: FrameProps) {
         super(props);
         this.state = {
-            iconComponents: []
+            iconComponents: [],
+            /*
+             为按钮设置默认的高亮
+             defaultSelectedKeys
+            * */
+            defaultSelectedMenuRoute: props.location.pathname.split('/').slice(0, 3).join('/')
+
         }
     }
 
@@ -48,6 +55,7 @@ class Frame extends Component<FrameProps, FrameState> {
                 })
             })
         })
+
     }
 
 
@@ -65,7 +73,7 @@ class Frame extends Component<FrameProps, FrameState> {
                     <Sider width={200} className="site-layout-background">
                         <Menu
                             mode="inline"
-                            defaultSelectedKeys={[this.props.location.pathname]}
+                            defaultSelectedKeys={[this.state.defaultSelectedMenuRoute]}
                             style={{height: '100%', borderRight: 0}}
                         >
                             {

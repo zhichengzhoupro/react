@@ -37,3 +37,10 @@ export const getArticles = ({offset = 0, limited = 0}) => {
 export const deleteArticle = async (id: number) => {
     await service.delete(`/article/${id}`);
 }
+
+export const getArticleById = async (id: string) => {
+
+    const article = await service.get(`/article/${id}`);
+
+    return article;
+}
