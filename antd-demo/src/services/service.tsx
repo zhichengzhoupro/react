@@ -33,3 +33,7 @@ export const getArticles = ({offset = 0, limited = 0}) => {
         }
     });
 }
+
+export const deleteArticle = async (id: number) => {
+    await service.delete(`/article/${id}`);
+}

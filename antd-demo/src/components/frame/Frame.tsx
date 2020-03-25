@@ -4,9 +4,7 @@ import {Layout, Menu, Breadcrumb} from 'antd';
 import './Frame.scss';
 import {adminRoutes, Route} from '../../routers/Router'
 import {RouteComponentProps, withRouter} from 'react-router-dom'
-import {StaticContext, match} from "react-router";
 
-const {SubMenu} = Menu;
 const {Header, Content, Sider} = Layout;
 
 interface FrameProps extends RouteComponentProps {
@@ -26,7 +24,12 @@ class Frame extends Component<FrameProps, FrameState> {
         }
     }
 
-    test = (e: any) => {
+
+    /*
+        这里是用来跳转
+    */
+    navigate = (e: any) => {
+        console.log('nav' , e)
         this.props.history.push(e.key);
     }
 
@@ -63,13 +66,16 @@ class Frame extends Component<FrameProps, FrameState> {
                         <Menu
                             mode="inline"
                             defaultSelectedKeys={[this.props.location.pathname]}
-                            defaultOpenKeys={['sub1']}
                             style={{height: '100%', borderRight: 0}}
                         >
                             {
                                 this.props.menus.map((r: Route) => {
                                         return (
-                                            <Menu.Item key={r.pathName} onClick={this.test}>
+                                            <Menu.Item key={r.pathName} onClick={this.navigate}>
+                                                {/*
+                                                    这里是导入那些icon
+                                                */}
+
                                                 {
                                                     this.state.iconComponents.find(ic => ic.pathname === r.pathName) ?
                                                         this.state.iconComponents.find(ic => ic.pathname === r.pathName).component.render() : ''

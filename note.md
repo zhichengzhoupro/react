@@ -373,10 +373,31 @@ actionCreator => middleware 处理生成新的action => 手动dispatch(actionCre
       path={'/render'} exact>
 </Route>
 ```
+
+
 ### 路由传参的几种方式
 1. query
 2. 动态路由 /path/:param
 3. 使用state 隐式传参 埋点 埋下统计的点
+
+### 在代码中路由
+* ￿￿￿ 导入 
+```javascript 1.6
+import {RouteComponentProps, withRouter} from 'react-router-dom'
+```
+* props接口需要 继承 RouteComponentProps
+```javascript 1.6
+interface ArticleProps extends RouteComponentProps {
+}
+```
+* 导出的时候需要
+```javascript 1.6
+export default withRouter(Article);
+```
+* 最后在代码中可以用 history 进行路由操作 但是路由是
+```javascript 1.6
+this.props.history.push(`/admin/article/edit/${record.id}`)
+```
 
 ## react-app-rewired
 
