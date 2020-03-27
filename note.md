@@ -432,5 +432,18 @@ class ArticleEdit extends Component<ArticleEditProps, ArticleState> {
 * yarn create react-app antd-demo --template typescript 
 * 这个使用react-script来绑定webpack 并进行默认的配置
 * 如果没有特殊情况可以不需要修改
-2. 
+
+## 实现富编辑器的原理
+* 不使用textarea 而是div
+* div有一个contenteditable属性 可以让它变成一个可编辑的区域 而且识别html标签
+```html
+<div contenteditable border="1 px solid">
+
+</div>
+```
+
+## 当前流行的 前端图形框架
+* 游戏 Egret engine2D
+* antv hightcharts d3
+* datav
     

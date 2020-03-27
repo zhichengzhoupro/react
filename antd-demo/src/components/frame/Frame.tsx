@@ -1,11 +1,15 @@
 
 import React, {Component} from "react";
-import {Layout, Menu, Breadcrumb} from 'antd';
+import {Layout, Menu, Breadcrumb, Dropdown, Avatar, Badge} from 'antd';
 import './Frame.scss';
 import {adminRoutes, Route} from '../../routers/Router'
 import {RouteComponentProps, withRouter} from 'react-router-dom'
+import { DownOutlined } from "@ant-design/icons";
 
 const {Header, Content, Sider} = Layout;
+
+
+
 
 interface FrameProps extends RouteComponentProps {
     menus: any
@@ -17,6 +21,31 @@ interface FrameState {
 }
 
 class Frame extends Component<FrameProps, FrameState> {
+
+    onDropDown = (key: any) => {
+        console.log(key.key);
+        this.props.history.push(key.key);
+    };
+
+     menu = (
+        <Menu onClick={this.onDropDown}>
+            <Menu.Item
+                key={"/admin/notifications"}
+            >
+                <Badge dot>
+                    <a href="#">Notification Center</a>
+                </Badge>
+            </Menu.Item>
+            <Menu.Item
+                key={"/admin/settings"}
+            >
+                Personnal Setting
+            </Menu.Item>
+            <Menu.Item>
+                Disconnect
+            </Menu.Item>
+        </Menu>
+    );
 
     constructor(props: FrameProps) {
         super(props);
@@ -32,13 +61,14 @@ class Frame extends Component<FrameProps, FrameState> {
     }
 
 
+
     /*
         这里是用来跳转
     */
     navigate = (e: any) => {
         console.log('nav' , e)
         this.props.history.push(e.key);
-    }
+    };
 
     componentDidMount(): void {
         this.props.menus.map((r: Route) => {
@@ -67,7 +97,17 @@ class Frame extends Component<FrameProps, FrameState> {
                     <div className="qf-logo">
                         <img src='/images/logo.png'/>
                     </div>
-
+                    <div className={"weclome-menu-container"}>
+                        <Dropdown overlay={this.menu} trigger={["click", "hover"] }>
+                            <a className="ant-dropdown-link" onClick={e => e.preventDefault()}>
+                                <Avatar src="https://zos.alipayobjects.com/rmsportal/ODTLcjxAfvqbxHnVXCYX.png" />
+                                <span>Welcome Zhicheng Zhou </span>
+                                <Badge count={10} offset={[10,-10]}>
+                                    <DownOutlined />
+                                </Badge>
+                            </a>
+                        </Dropdown>
+                    </div>
                 </Header>
                 <Layout>
                     <Sider width={200} className="site-layout-background">

@@ -1,54 +1,97 @@
 import React, {Component} from 'react';
-import {Button, Card, Checkbox, DatePicker, Form, Input, InputNumber} from "antd";
+import {Button, Card, Checkbox, DatePicker, Form, Input, InputNumber, message, Spin} from "antd";
 import {RouteComponentProps, withRouter} from 'react-router-dom';
-import {getArticleById} from "../../services/service";
+import {getArticleById, updateArticle} from "../../services/service";
 import {FormProps} from "antd/es/form";
-import FormItem from "antd/es/form/FormItem";
+import {EditorState, convertToRaw, convertFromRaw, ContentState} from 'draft-js';
+import {Editor} from 'react-draft-wysiwyg';
+import 'react-draft-wysiwyg/dist/react-draft-wysiwyg.css';
+import draftToHtml from 'draftjs-to-html';
+import htmlToDraft from 'html-to-draftjs';
+import './Article.scss'
+import {Article} from "./Article";
 import moment from "moment";
 
 type state = {
     title: string
 }
-type context = {
-
-}
+type context = {}
 type MatchParams = {
     id: string;
 }
 
 
-interface ArticleEditProps extends RouteComponentProps<MatchParams, context, state> , FormProps{
-
+interface ArticleEditProps extends RouteComponentProps<MatchParams, context, state>, FormProps {
+    articleForm?: any
 }
 
 
 interface ArticleState {
     titleHelp?: string
     validateStatus?: any
+    editorState?: any
+    article?: Article,
+    isCharged?: boolean
 }
 
 const layout = {
-    labelCol: { span: 2 },
-    wrapperCol: { span: 12 },
+    labelCol: {span: 2},
+    wrapperCol: {span: 12},
 };
 const tailLayout = {
-    wrapperCol: { offset: 2, span: 12 },
+    wrapperCol: {offset: 2, span: 12},
 };
 
 const dateFormat = 'YYYY/MM/DD';
 
+
+
 class ArticleEdit extends Component<ArticleEditProps, ArticleState> {
+
+    formRef: any = React.createRef();
 
     constructor(articleEditProps: ArticleEditProps) {
         super(articleEditProps);
         this.state = {
-            titleHelp : 'test',
-            validateStatus: 'success'
+            titleHelp: 'test',
+            validateStatus: 'success',
+            editorState: EditorState.createEmpty(),
+            article: {
+                title: '',
+                id: '',
+                author: '',
+                amount: 0,
+                body: '',
+                createAt: ''
+            },
+            isCharged: false
         }
+
     }
 
     componentDidMount(): void {
-        getArticleById(this.props.match.params.id).then((Response) => {
+        getArticleById(this.props.match.params.id).then((response:any) => {
+            console.log(response.createAt);
+            this.formRef.current!.setFieldsValue({
+                title: response.title,
+                author: response.author,
+                amount: response.amount,
+                createAt: moment(response.createAt)
+            });
+
+            const html = response.body;
+            const contentBlock = htmlToDraft(html);
+            if (contentBlock) {
+                const contentState = ContentState.createFromBlockArray(contentBlock.contentBlocks);
+                const editorState = EditorState.createWithContent(contentState);
+                this.setState({
+                    editorState: editorState
+                })
+            }
+
+            this.setState({
+                isCharged: true
+            });
 
         });
     }
@@ -57,25 +100,49 @@ class ArticleEdit extends Component<ArticleEditProps, ArticleState> {
 
     }
 
-    private  onFinish = (values: any) => {
-        console.log('Success:', values);
+    private onFinish = (values: any) => {
+        this.setState({
+            isCharged: false
+        });
+
+        const newVArticle: Article = {
+            amount: values.amount,
+            author: values.author,
+            body:   draftToHtml(convertToRaw(this.state.editorState.getCurrentContent())),
+            createAt: values.createAt,
+            id: this.props.match.params.id,
+            title: values.title
+        };
+
+       updateArticle(newVArticle).then((resp:any)=>{
+            message.success("Article saved", 0.5)
+
+       }).finally(() => {
+           this.setState({
+               isCharged: true
+           });
+       });
+
+
+
     };
 
-    private  onFinishFailed = (errorInfo :any) => {
+    private onFinishFailed = (errorInfo: any) => {
         console.log('Failed:', errorInfo);
     };
 
     private validateUserName = (_: any, value: string) => {
-        if(value && value.indexOf('@') === -1) {
+        if (value && value.indexOf('@') !== -1) {
             this.setState({
-                titleHelp: 'Should contain @',
+                titleHelp: 'Should not contain @',
                 validateStatus: 'error'
             })
-        } else  {
+            return Promise.reject("Should not containt @")
+        } else {
             this.setState({
                 validateStatus: 'success'
             });
-         return Promise.resolve();
+            return Promise.resolve();
         }
 
     }
@@ -84,90 +151,107 @@ class ArticleEdit extends Component<ArticleEditProps, ArticleState> {
 
     }
 
-    render() {
+    private onEditorStateChange = (editorState: any) => {
+        this.setState({
+            editorState
+        })
+    }
 
+   private goBack = () => {
+        this.props.history.goBack();
+    }
+
+    render() {
 
         return (
 
             <Card
                 title={this.props.location.state ? this.props.location.state.title : 'Edit Article'}
-                extra={<Button type={"primary"}> EXIT </Button>}
+                extra={<Button type={"primary"} onClick={this.goBack}> EXIT </Button>}
             >
-                <Form
-                    name="basic"
-                    initialValues={{ remember: true }}
-                    onFinish={this.onFinish}
-                    onFinishFailed={this.onFinishFailed}
-                    {...layout}
+                <Spin spinning={!this.state.isCharged}>
+                    <Form
+                        ref={this.formRef}
+                        name="basic"
+                        onFinish={this.onFinish}
+                        onFinishFailed={this.onFinishFailed}
+                        {...layout}
 
-                >
-                    <Form.Item
-                        label="title"
-                        name="title"
-                        validateStatus={this.state.validateStatus}
-                        rules={
-                            [
-                                {
-                                    required: true,
-                                    message: 'Please input Article title!'
-                                },
+                    >
+                        <Form.Item
+                            label="title"
+                            name="title"
+                            validateStatus={this.state.validateStatus}
+                            rules={
+                                [
+                                    {
+                                        required: true,
+                                        message: 'Please input Article title!'
+                                    },
 
-                                {
-                                    validator: this.validateUserName
-                                }
+                                    {
+                                        validator: this.validateUserName
+                                    }
 
-                            ]
-                        }
-                    >
-                        <Input />
-                    </Form.Item>
-                    <Form.Item
-                        label="author"
-                        name="author"
-                        rules={
-                            [
-                                {
-                                    required: true,
-                                    message: 'Please input Article author!'
-                                }
-                            ]
-                        }
-                    >
-                        <Input />
-                    </Form.Item>
-                    <Form.Item
-                        label="amount"
-                        name="amount"
-                        rules={
-                            []
-                        }
-                    >
-                        <InputNumber />
-                    </Form.Item>
-                    <Form.Item
-                        label="Create At"
-                        name="createAt"
-                        rules={
-                            []
-                        }
-                    >
-                        <DatePicker showTime placeholder={"select time"}  onChange={this.onDateChange} />
-                    </Form.Item>
-                    <Form.Item
-                        label="Content"
-                        name="content"
-                        rules={
-                            []
-                        }
-                    >
-                        <Input.TextArea allowClear={true} />
-                    </Form.Item>
-                    <Form.Item {...tailLayout}>
-                        <Button type="primary" htmlType="submit">
-                            Submit
-                        </Button>
-                    </Form.Item>
-                </Form>
+                                ]
+                            }
+                        >
+                            <Input/>
+                        </Form.Item>
+                        <Form.Item
+                            label="author"
+                            name="author"
+                            rules={
+                                [
+                                    {
+                                        required: true,
+                                        message: 'Please input Article author!'
+                                    }
+                                ]
+                            }
+                        >
+                            <Input/>
+                        </Form.Item>
+                        <Form.Item
+                            label="amount"
+                            name="amount"
+                            rules={
+                                []
+                            }
+                        >
+                            <InputNumber/>
+                        </Form.Item>
+                        <Form.Item
+                            label="Create At"
+                            name="createAt"
+                            rules={
+                                []
+                            }
+                        >
+                            <DatePicker showTime placeholder={"select time"} onChange={this.onDateChange}/>
+                        </Form.Item>
+                        <Form.Item
+                            label="Content"
+                            name="content"
+                            rules={
+                                []
+                            }
+                        >
+                            <Editor
+                                editorState={this.state.editorState}
+                                wrapperClassName="demo-wrapper"
+                                editorClassName="demo-editor"
+                                onEditorStateChange={this.onEditorStateChange.bind(this)}
+
+                            ></Editor>
+                        </Form.Item>
+                        <Form.Item {...tailLayout}>
+                            <Button type="primary" htmlType="submit">
+                                Submit
+                            </Button>
+                        </Form.Item>
+                    </Form>
+                </Spin>
             </Card>
         );
     }

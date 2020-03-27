@@ -1,5 +1,6 @@
 import axios, {AxiosRequestConfig} from 'axios'
 import {message} from "antd";
+import {Article} from "../views/Article/Article";
 
 const isDev = process.env.NODE_ENV === 'development'
 
@@ -43,4 +44,15 @@ export const getArticleById = async (id: string) => {
     const article = await service.get(`/article/${id}`);
 
     return article;
+}
+
+export const updateArticle = async (article: Article) => {
+
+    const result = await service.put(`/article/`, article);
+
+    return result;
+}
+
+export const getKpiArticleAmountByMonthYear = async () => {
+    return await service.post(`/article/kpi/amount/month`)
 }

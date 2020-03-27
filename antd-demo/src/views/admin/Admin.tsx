@@ -6,7 +6,6 @@ class Admin extends Component {
     render() {
         return (
             <div>
-                <div>这里是 Admin 公共的部分</div>
                 <Switch>
                     {
                         adminRoutes.map(route => {
