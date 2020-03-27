@@ -32,6 +32,10 @@ const Settings = Loadable({
     Loader: () => import('./settings/Settings'),
     Loading: Loading
 })
+const Notification = Loadable({
+    Loader: () => import('./notification/Notification'),
+    Loading: Loading
+})
 
 export {
     DashBoard,
@@ -39,5 +43,6 @@ export {
     ArticleEdit,
     NotFound,
     Login,
-    Settings
+    Settings,
+    Notification
 }

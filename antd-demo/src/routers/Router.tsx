@@ -4,7 +4,8 @@ import {
     ArticleEdit,
     NotFound,
     Login,
-    Settings
+    Settings,
+    Notification
 } from '../views'
 
 
@@ -49,6 +50,14 @@ export const adminRoutes: Route[] = [
         component: Settings,
         title: "Settings",
         iconComponent: () =>  import('@ant-design/icons/SettingOutlined'),
+        isNav: true,
+        exact: false
+    },
+    {
+        pathName : '/admin/notification',
+        component: Notification,
+        title: "Notification",
+        iconComponent: () =>  import('@ant-design/icons/NotificationOutlined'),
         isNav: true,
         exact: false
     },

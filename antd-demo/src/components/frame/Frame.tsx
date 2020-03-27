@@ -23,17 +23,16 @@ interface FrameState {
 class Frame extends Component<FrameProps, FrameState> {
 
     onDropDown = (key: any) => {
-        console.log(key.key);
         this.props.history.push(key.key);
     };
 
      menu = (
         <Menu onClick={this.onDropDown}>
             <Menu.Item
-                key={"/admin/notifications"}
+                key={"/admin/notification"}
             >
                 <Badge dot>
-                    <a href="#">Notification Center</a>
+                    Notification Center
                 </Badge>
             </Menu.Item>
             <Menu.Item
@@ -88,6 +87,15 @@ class Frame extends Component<FrameProps, FrameState> {
 
     }
 
+    componentDidUpdate(prevProps: Readonly<FrameProps>, prevState: Readonly<FrameState>, snapshot?: any): void {
+
+        if (this.props.location !== prevProps.location) {
+            this.setState({
+                defaultSelectedMenuRoute: this.props.location.pathname
+            });
+        }
+    }
+
 
     render() {
         return (
@@ -113,7 +121,7 @@ class Frame extends Component<FrameProps, FrameState> {
                     <Sider width={200} className="site-layout-background">
                         <Menu
                             mode="inline"
-                            defaultSelectedKeys={[this.state.defaultSelectedMenuRoute]}
+                            selectedKeys={[this.state.defaultSelectedMenuRoute]}
                             style={{height: '100%', borderRight: 0}}
                         >
                             {
