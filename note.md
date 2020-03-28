@@ -296,6 +296,44 @@ export default store;
    
    } 
    ```
+   * map Action的第二种办法 actioncreator 
+   ```typescript
+   const mapToProps: any = (state: any) => {
+   
+       const {
+           isLoading = true,
+           list = []
+       } = state.Notification
+       return ({
+           isLoading,
+           list
+       })
+   }
+   
+   const mapDispatch = {
+   
+           markNotificationAsReadById:   Actions.notificationAction_markNotificationAsReadById
+   
+   }
+   
+   export default connect(mapToProps, mapDispatch)(Notification);
+   
+   // 这个是actioncreator
+   //返回一个回调方法， 回调的第一个参数 相当于resolve
+   //发送一个action对象 一般包括type和 payload
+   export const markNotificationAsReadById = (id: number) => {
+       return (dispatch: any) => {
+           setTimeout(() => {
+               dispatch({
+                   type:actionType.MARK_NOTIFICATION_AS_READ_BY_ID
+               })
+           }, 3000)
+       }
+   }
+   
+   ```
+   
+   
    * 在对外暴露组件时 使用react-redux提供的connect方法 就可以使用this.props中直接去使用了
    * connect方法有4个参数 常用的是前两个
    * 第一个参数是mapStateToProps 作用就是从store里把state注入到当前组件的props上
@@ -427,6 +465,10 @@ class ArticleEdit extends Component<ArticleEditProps, ArticleState> {
     }
 }
 ```
+## 带入子组件
+* 最好用function / return 的方式
+* 如果是是静态的子组件 就可以写成变量的形式
+
 ## react-app-rewired
 
 ## 建立新的项目

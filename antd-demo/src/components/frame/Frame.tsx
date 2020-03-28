@@ -1,20 +1,19 @@
-
 import React, {Component} from "react";
-import {Layout, Menu, Breadcrumb, Dropdown, Avatar, Badge} from 'antd';
+import {Layout, Menu, Breadcrumb, Dropdown, Avatar, Badge, Spin} from 'antd';
 import './Frame.scss';
 import {adminRoutes, Route} from '../../routers/Router'
 import {RouteComponentProps, withRouter} from 'react-router-dom'
-import { DownOutlined } from "@ant-design/icons";
+import {DownOutlined} from "@ant-design/icons";
 import {connect} from "react-redux";
 
 
 const {Header, Content, Sider} = Layout;
 
 
-
 interface FrameProps extends RouteComponentProps {
     menus: any
     notificationsUnreadCount?: any
+    notificationLoading?: boolean
 }
 
 interface FrameState {
@@ -29,7 +28,7 @@ class Frame extends Component<FrameProps, FrameState> {
         this.props.history.push(key.key);
     };
 
-     menu = (
+    menu = () => (
         <Menu onClick={this.onDropDown}>
             <Menu.Item
                 key={"/admin/notification"}
@@ -63,12 +62,11 @@ class Frame extends Component<FrameProps, FrameState> {
     }
 
 
-
     /*
         这里是用来跳转
     */
     navigate = (e: any) => {
-        console.log('nav' , e)
+        console.log('nav', e)
         this.props.history.push(e.key);
     };
 
@@ -109,15 +107,17 @@ class Frame extends Component<FrameProps, FrameState> {
                         <img src='/images/logo.png'/>
                     </div>
                     <div className={"weclome-menu-container"}>
-                        <Dropdown overlay={this.menu} trigger={["click", "hover"] }>
-                            <a className="ant-dropdown-link" onClick={e => e.preventDefault()}>
-                                <Avatar src="https://zos.alipayobjects.com/rmsportal/ODTLcjxAfvqbxHnVXCYX.png" />
-                                <span>Welcome Zhicheng Zhou </span>
-                                <Badge  showZero={false} count={this.props.notificationsUnreadCount} offset={[10,-10]}>
-                                    <DownOutlined />
-                                </Badge>
-                            </a>
-                        </Dropdown>
+                        <Spin spinning={this.props.notificationLoading}>
+                            <Dropdown overlay={this.menu} trigger={["click", "hover"]}>
+                                <a className="ant-dropdown-link" onClick={e => e.preventDefault()}>
+                                    <Avatar src="https://zos.alipayobjects.com/rmsportal/ODTLcjxAfvqbxHnVXCYX.png"/>
+                                    <span>Welcome Zhicheng Zhou </span>
+                                    <Badge showZero={false} count={this.props.notificationsUnreadCount} offset={[10, -10]}>
+                                        <DownOutlined/>
+                                    </Badge>
+                                </a>
+                            </Dropdown>
+                        </Spin>
                     </div>
                 </Header>
                 <Layout>
@@ -166,7 +166,7 @@ class Frame extends Component<FrameProps, FrameState> {
                                 minHeight: 280,
                             }}
                         >
-                                {this.props.children}
+                            {this.props.children}
                         </Content>
                     </Layout>
                 </Layout>
@@ -177,7 +177,8 @@ class Frame extends Component<FrameProps, FrameState> {
 
 const mapToProps: any = (state: any) => {
     return {
-        notificationsUnreadCount: state.Notification.list.filter( (n:any) => n.isRed === false).length
+        notificationsUnreadCount: state.Notification.list.filter((n: any) => n.isRed === false).length,
+        notificationLoading: state.Notification.isLoading
     }
 }
 

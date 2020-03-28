@@ -1,3 +1,5 @@
+import ActionTypes from '../actions/Action.types'
+
 const initialState = {
     isLoading: false,
     list: [
@@ -19,6 +21,42 @@ const initialState = {
 
 export default (state = initialState, action: any) => {
     switch (action.type) {
+        case ActionTypes.MARK_NOTIFICATION_AS_READ_BY_ID:
+            const newList = state.list.map(i => {
+                if(i.id == action.payload.id) {
+                    i.isRed = true
+                }
+                return i;
+            });
+            return {
+                ...state,
+                list: newList
+            };
+            break
+        case ActionTypes.MARK_ALL_NOTIFICATIONS:
+            const list = state.list.map(i => {
+                i.isRed = true
+                return i;
+            });
+            return {
+                ...state,
+                list: list
+            };
+        case ActionTypes.START_NOTIFICATION_LOADING:
+
+            return {
+                ...state,
+                isLoading: true
+            };
+            break
+        case ActionTypes.END_NOTIFICATION_LOADING:
+
+            return {
+                ...state,
+                isLoading: false
+            };
+            break
+
         default:
             return state;
 
