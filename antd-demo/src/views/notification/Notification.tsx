@@ -1,32 +1,54 @@
 import React, {Component} from 'react';
-import {Card} from "antd";
+import {Card, List, Avatar, Badge, Button} from "antd";
+import {connect} from "react-redux";
 
-class Notification extends Component {
+interface NotifcationProps {
+    list?: any[]
+}
 
-    data = [
-        {
-            title: 'Ant Design Title 1',
-        },
-        {
-            title: 'Ant Design Title 2',
-        },
-        {
-            title: 'Ant Design Title 3',
-        },
-        {
-            title: 'Ant Design Title 4',
-        },
-    ];
+
+class Notification extends Component<NotifcationProps> {
+
+    constructor(props: NotifcationProps) {
+        super(props);
+    }
 
     render() {
         return (
             <Card
                 title="Notifications Center"
             >
-
+                <List
+                    itemLayout="horizontal"
+                    dataSource={this.props.list}
+                    renderItem={item => (
+                        <List.Item
+                            extra={item.isRed ? null : <Button>Mark As Read</Button>}
+                            >
+                            <List.Item.Meta
+                                title={<Badge dot={!item.isRed}>item.title</Badge>}
+                                description={item.description}
+                            />
+                        </List.Item>
+                    )}
+                />
             </Card>
         );
     }
 }
 
-export default Notification;
+const mapToProps: any = (state: any) => {
+
+    const {
+        isLoading = true,
+        list = []
+    } = state.Notification
+    return ({
+        isLoading,
+        list
+    })
+
+
+}
+
+export default connect(mapToProps)(Notification);

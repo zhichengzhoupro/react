@@ -5,20 +5,23 @@ import './Frame.scss';
 import {adminRoutes, Route} from '../../routers/Router'
 import {RouteComponentProps, withRouter} from 'react-router-dom'
 import { DownOutlined } from "@ant-design/icons";
+import {connect} from "react-redux";
+
 
 const {Header, Content, Sider} = Layout;
 
 
 
-
 interface FrameProps extends RouteComponentProps {
     menus: any
+    notificationsUnreadCount?: any
 }
 
 interface FrameState {
     iconComponents: any[],
     defaultSelectedMenuRoute: string
 }
+
 
 class Frame extends Component<FrameProps, FrameState> {
 
@@ -31,7 +34,7 @@ class Frame extends Component<FrameProps, FrameState> {
             <Menu.Item
                 key={"/admin/notification"}
             >
-                <Badge dot>
+                <Badge dot={this.props.notificationsUnreadCount !== 0}>
                     Notification Center
                 </Badge>
             </Menu.Item>
@@ -110,7 +113,7 @@ class Frame extends Component<FrameProps, FrameState> {
                             <a className="ant-dropdown-link" onClick={e => e.preventDefault()}>
                                 <Avatar src="https://zos.alipayobjects.com/rmsportal/ODTLcjxAfvqbxHnVXCYX.png" />
                                 <span>Welcome Zhicheng Zhou </span>
-                                <Badge count={10} offset={[10,-10]}>
+                                <Badge  showZero={false} count={this.props.notificationsUnreadCount} offset={[10,-10]}>
                                     <DownOutlined />
                                 </Badge>
                             </a>
@@ -171,4 +174,12 @@ class Frame extends Component<FrameProps, FrameState> {
         );
     }
 }
-export default withRouter(Frame);
+
+const mapToProps: any = (state: any) => {
+    return {
+        notificationsUnreadCount: state.Notification.list.filter( (n:any) => n.isRed === false).length
+    }
+}
+
+
+export default withRouter(connect(mapToProps)(Frame));

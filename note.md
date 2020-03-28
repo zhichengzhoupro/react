@@ -207,6 +207,7 @@ class Counter extends React.Component {
 ```
 
 ## Redux
+![Image description](./img/redux.png)
 1. reducer 必须是一个纯函数
 * 纯函数的意义就是它不能因为外界的因素影响执行 比如在函数中使用ajax调用 这样不确定结果的数据
 * 它接受先前的state￿ 和 action 并返回新的state 
