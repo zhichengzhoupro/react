@@ -5,6 +5,7 @@ import {adminRoutes, Route} from '../../routers/Router'
 import {RouteComponentProps, withRouter} from 'react-router-dom'
 import {DownOutlined} from "@ant-design/icons";
 import {connect} from "react-redux";
+import Action from '../../actions'
 
 
 const {Header, Content, Sider} = Layout;
@@ -13,7 +14,11 @@ const {Header, Content, Sider} = Layout;
 interface FrameProps extends RouteComponentProps {
     menus: any
     notificationsUnreadCount?: any
-    notificationLoading?: boolean
+    notificationLoading?: boolean,
+    getNotifications?: any
+    signOut?: any,
+    avatar?: string,
+    displayName?: string
 }
 
 interface FrameState {
@@ -27,6 +32,10 @@ class Frame extends Component<FrameProps, FrameState> {
     onDropDown = (key: any) => {
         this.props.history.push(key.key);
     };
+
+    disconnect = () => {
+        this.props.signOut();
+    }
 
     menu = () => (
         <Menu onClick={this.onDropDown}>
@@ -42,7 +51,9 @@ class Frame extends Component<FrameProps, FrameState> {
             >
                 Personnal Setting
             </Menu.Item>
-            <Menu.Item>
+            <Menu.Item onClick={this.disconnect}
+                key={"/login"}
+            >
                 Disconnect
             </Menu.Item>
         </Menu>
@@ -84,7 +95,10 @@ class Frame extends Component<FrameProps, FrameState> {
                     };
                 })
             })
-        })
+        });
+
+        // get all notifications
+        this.props.getNotifications();
 
     }
 
@@ -111,7 +125,7 @@ class Frame extends Component<FrameProps, FrameState> {
                             <Dropdown overlay={this.menu} trigger={["click", "hover"]}>
                                 <a className="ant-dropdown-link" onClick={e => e.preventDefault()}>
                                     <Avatar src="https://zos.alipayobjects.com/rmsportal/ODTLcjxAfvqbxHnVXCYX.png"/>
-                                    <span>Welcome Zhicheng Zhou </span>
+                                    <span>Welcome {this.props.displayName} </span>
                                     <Badge showZero={false} count={this.props.notificationsUnreadCount} offset={[10, -10]}>
                                         <DownOutlined/>
                                     </Badge>
@@ -175,12 +189,18 @@ class Frame extends Component<FrameProps, FrameState> {
     }
 }
 
-const mapToProps: any = (state: any) => {
+const mapToProps: any = (store: any) => {
     return {
-        notificationsUnreadCount: state.Notification.list.filter((n: any) => n.isRed === false).length,
-        notificationLoading: state.Notification.isLoading
+        notificationsUnreadCount: store.Notification.list.filter((n: any) => n.isRed === false).length,
+        notificationLoading: store.Notification.isLoading,
+        avatar : store.Authentification.avatar,
+        displayName : store.Authentification.displayName
     }
 }
 
+const mapDispatch = {
+    getNotifications: Action.notificationAction_getNotifications,
+    signOut: Action.authAction_signOut
+}
 
-export default withRouter(connect(mapToProps)(Frame));
+export default withRouter(connect(mapToProps, mapDispatch)(Frame));

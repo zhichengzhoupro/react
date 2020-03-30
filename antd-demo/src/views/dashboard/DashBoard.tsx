@@ -3,7 +3,7 @@ import {Button, Card, Col, Row, Spin} from "antd";
 import './Dashboard.scss';
 import Highcharts from 'highcharts'
 import {HighChartComponent} from "../../components/chart/HighChartComponent";
-import {getKpiArticleAmountByMonthYear} from "../../services/service";
+import {ArticleService} from "../../services/service";
 import {TwitterOutlined, AlipayOutlined, WechatOutlined, YoutubeOutlined} from '@ant-design/icons'
 
 const  overViewColors = ['#8002EE', '#ee02e6', '#ee8002', '#70ee02', '#FF0266', '#4DB6AC', '#81C784', '#A1887F', '#BDBDBD', '#4FC3F7', '#4DD0E1'];
@@ -42,7 +42,7 @@ class DashBoard extends Component<DashBoardProps, DashBoardState> {
     }
 
     componentDidMount(): void {
-        getKpiArticleAmountByMonthYear().then(
+        ArticleService.getKpiArticleAmountByMonthYear().then(
             (data: any) => {
                 const cloneData = [...data];
                 console.log(cloneData.sort((r1:any, r2:any)=> parseInt(r1.amount) - parseInt(r2.amount)).reverse().slice(0, 4));

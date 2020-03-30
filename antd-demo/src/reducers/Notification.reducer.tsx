@@ -57,6 +57,14 @@ export default (state = initialState, action: any) => {
             };
             break
 
+        case ActionTypes.GET_NOTIFICATIONS:
+
+            return {
+                ...state,
+                list: action.payload.list
+            };
+            break
+
         default:
             return state;
 

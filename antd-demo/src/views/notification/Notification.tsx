@@ -1,7 +1,7 @@
 import React, {Component} from 'react';
 import {Card, List, Avatar, Badge, Button, Spin} from "antd";
 import {connect} from "react-redux";
-import ActionsCreator from "../../actions/Actions.creator";
+import ActionsCreator from "../../actions";
 
 interface NotifcationProps {
     list?: any[],
@@ -34,8 +34,8 @@ class Notification extends Component<NotifcationProps> {
                                         Read</Button>}
                             >
                                 <List.Item.Meta
-                                    title={<Badge dot={!item.isRed}>item.title</Badge>}
-                                    description={item.description}
+                                    title={<Badge dot={!item.isRed}>{item.title}</Badge>}
+                                    description={item.body}
                                 />
                             </List.Item>
                         )}

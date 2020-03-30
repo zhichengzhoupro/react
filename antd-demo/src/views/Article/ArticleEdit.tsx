@@ -1,7 +1,7 @@
 import React, {Component} from 'react';
 import {Button, Card, Checkbox, DatePicker, Form, Input, InputNumber, message, Spin} from "antd";
 import {RouteComponentProps, withRouter} from 'react-router-dom';
-import {getArticleById, updateArticle} from "../../services/service";
+import {ArticleService} from "../../services/service";
 import {FormProps} from "antd/es/form";
 import {EditorState, convertToRaw, convertFromRaw, ContentState} from 'draft-js';
 import {Editor} from 'react-draft-wysiwyg';
@@ -70,7 +70,7 @@ class ArticleEdit extends Component<ArticleEditProps, ArticleState> {
     }
 
     componentDidMount(): void {
-        getArticleById(this.props.match.params.id).then((response:any) => {
+        ArticleService.getArticleById(this.props.match.params.id).then((response:any) => {
             console.log(response.createAt);
             this.formRef.current!.setFieldsValue({
                 title: response.title,
@@ -114,7 +114,7 @@ class ArticleEdit extends Component<ArticleEditProps, ArticleState> {
             title: values.title
         };
 
-       updateArticle(newVArticle).then((resp:any)=>{
+        ArticleService.updateArticle(newVArticle).then((resp:any)=>{
             message.success("Article saved", 0.5)
 
        }).finally(() => {

@@ -1,17 +1,17 @@
-import React from 'react';
+import React ,{Fragment} from 'react';
 import ReactDOM from 'react-dom';
-import './index.css';
+import './index.scss';
 import App from './App';
 import * as serviceWorker from './serviceWorker';
 import {Provider} from "react-redux";
 import store from './store'
 
 ReactDOM.render(
-  <React.Fragment>
+  <Fragment>
       <Provider store={store}>
           <App />
       </Provider>
-  </React.Fragment>,
+  </Fragment>,
   document.getElementById('root')
 );
 

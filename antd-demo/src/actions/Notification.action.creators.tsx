@@ -1,4 +1,5 @@
 import actionType from './Action.types'
+import {NotificationService} from "../services/service";
 
 
 export const markNotificationAsReadById = (id: number) => {
@@ -25,6 +26,24 @@ export const markNotifications = () => {
             });
             dispatch(endNotificationLoading());
         }, 1000)
+    }
+}
+
+export const getNotifications = () => {
+    return (dispatch: any) => {
+        dispatch(startNotificationLoading());
+        NotificationService
+            .getNotifications({})
+            .then((data:any) => {
+                console.log(data);
+                dispatch({
+                   type:actionType.GET_NOTIFICATIONS,
+                    payload: {
+                       list : data.list
+                    }
+               });
+               dispatch(endNotificationLoading());
+            });
     }
 }
 

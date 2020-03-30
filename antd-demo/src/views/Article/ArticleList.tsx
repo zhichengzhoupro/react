@@ -1,6 +1,6 @@
 import React, {Component} from 'react';
 import {Button, Card, Table, Tag, Modal, Typography, Tooltip} from "antd";
-import {getArticles, deleteArticle} from "../../services/service";
+import {ArticleService} from "../../services/service";
 import moment from "moment";
 import ButtonGroup from "antd/es/button/button-group";
 import XLSX from 'xlsx';
@@ -40,7 +40,7 @@ class ArticleList extends Component<ArticleProps, Partial<ArticleState>>{
     }
 
     private getArticles() {
-        getArticles({
+        ArticleService.getArticles({
             offset: this.state.offset,
             limited: this.state.limited
         }, ).then((resp: any) => {
@@ -174,7 +174,7 @@ class ArticleList extends Component<ArticleProps, Partial<ArticleState>>{
     }
 
     private confirmDelete = (arg: any) => {
-        deleteArticle(arg.id).then(()=> {
+        ArticleService.deleteArticle(arg.id).then(()=> {
             this.getArticles();
         })
     }
