@@ -1,5 +1,5 @@
 import React, {Component} from 'react';
-import {Button, Card, Checkbox, DatePicker, Form, Input, InputNumber, message, Spin} from "antd";
+import {Button, Card, DatePicker, Form, Input, InputNumber, message, Spin} from "antd";
 import {RouteComponentProps, withRouter} from 'react-router-dom';
 import {ArticleService} from "../../services/service";
 import {FormProps} from "antd/es/form";

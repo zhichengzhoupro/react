@@ -14,12 +14,13 @@ export const signIn = (user :{username: string, password: string, remember: bool
                         ...resp.data,
                         remember : user.remember
                     }));
-                    console.log('user.remember', user.remember);
+
                     if(user.remember) {
-                        console.log( resp.data.accessToken);
                         window.localStorage.setItem('accessToken', resp.data.accessToken);
+                        window.localStorage.setItem('userInfo', JSON.stringify(resp.data.userInfo));
                     } else {
                         window.sessionStorage.setItem('accessToken', resp.data.accessToken)
+                        window.sessionStorage.setItem('userInfo', JSON.stringify(resp.data.userInfo));
                     }
 
                 }

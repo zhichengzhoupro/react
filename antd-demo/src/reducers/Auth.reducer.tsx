@@ -2,9 +2,15 @@ import ActionTyps from '../actions/Action.types'
 import {removeAuthentificationFromStorage} from "../common/Util";
 
 const isSignIn = (Boolean('accessToken' in window.localStorage ) || Boolean('accessToken' in window.sessionStorage ));
-const initState = {
-    isSignIn: isSignIn,
-    isSignInLoading: false
+
+const userInfo = () => {
+    if(Boolean('userInfo' in window.localStorage )) {
+       return JSON.parse(window.localStorage['userInfo'])
+    }
+    if(Boolean('userInfo' in window.sessionStorage )) {
+        return JSON.parse(window.sessionStorage['userInfo'])
+    }
+    return {}
 }
 
 interface AuthentificationState {
@@ -12,8 +18,15 @@ interface AuthentificationState {
     username?: string,
     role?: string,
     isSignIn: boolean,
-    isSignInLoading: boolean
+    isSignInLoading: boolean,
 }
+
+const initState = {
+    ...userInfo(),
+    isSignIn: isSignIn,
+    isSignInLoading: false,
+}
+
 
 export default (state:AuthentificationState = initState, action: any) => {
     switch (action.type) {

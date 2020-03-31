@@ -45,7 +45,6 @@ class DashBoard extends Component<DashBoardProps, DashBoardState> {
         ArticleService.getKpiArticleAmountByMonthYear().then(
             (data: any) => {
                 const cloneData = [...data];
-                console.log(cloneData.sort((r1:any, r2:any)=> parseInt(r1.amount) - parseInt(r2.amount)).reverse().slice(0, 4));
                 this.setState({
                     firstNumbers : cloneData.sort((r1:any, r2:any)=> parseInt(r1.amount) - parseInt(r2.amount)).reverse().slice(0, 4),
                     options: {

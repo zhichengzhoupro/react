@@ -9,26 +9,29 @@ import {connect} from "react-redux";
 const menus = adminRoutes.filter(route => route.isNav === true );
 
 interface AdminProps {
-    isSignIn: boolean
+    isSignIn: boolean,
+    role?: string,
 }
 
 class Admin extends Component<AdminProps> {
     render() {
+
         return (
              this.props.isSignIn ?
-                <Frame menus={menus}>
+                <Frame menus={menus.filter(menu => menu.roles?.includes(this.props.role!))}>
                     <div>
                         <Switch>
                             {
-                                adminRoutes.map(route => {
+                                adminRoutes.map((route:any) => {
                                     return (
                                         <Route
                                             key={route.pathName}
                                             path={route.pathName}
                                             exact={route.exact}
                                             render={
-                                                (routeProps) => {
-                                                    return <route.component {...routeProps} />
+                                                (routeProps:any) => {
+                                                    const hasPermission = route.roles.includes(this.props.role)
+                                                    return  hasPermission ? <route.component {...routeProps} /> : <Redirect to={"/admin/noright"}></Redirect>
                                                 }
                                             }
                                         ></Route>)
@@ -48,7 +51,8 @@ class Admin extends Component<AdminProps> {
 
 const mstp =(store: any) => {
     return {
-        isSignIn :  store.Authentification.isSignIn
+        isSignIn :  store.Authentification.isSignIn,
+        role: store.Authentification.role
     }
 }
 

@@ -37,6 +37,11 @@ const Notification = Loadable({
     Loading: Loading
 })
 
+const NoRight = Loadable({
+    Loader: () => import('./no-right/NoRight'),
+    Loading: Loading
+})
+
 export {
     DashBoard,
     Article,
@@ -44,5 +49,6 @@ export {
     NotFound,
     Login,
     Settings,
-    Notification
+    Notification,
+    NoRight
 }

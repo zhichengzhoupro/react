@@ -1,7 +1,7 @@
 import React, {Component} from "react";
-import {Layout, Menu, Breadcrumb, Dropdown, Avatar, Badge, Spin} from 'antd';
+import {Avatar, Badge, Breadcrumb, Dropdown, Layout, Menu, Spin} from 'antd';
 import './Frame.scss';
-import {adminRoutes, Route} from '../../routers/Router'
+import {Route} from '../../routers/Router'
 import {RouteComponentProps, withRouter} from 'react-router-dom'
 import {DownOutlined} from "@ant-design/icons";
 import {connect} from "react-redux";
@@ -49,7 +49,7 @@ class Frame extends Component<FrameProps, FrameState> {
             <Menu.Item
                 key={"/admin/settings"}
             >
-                Personnal Setting
+                Settings
             </Menu.Item>
             <Menu.Item onClick={this.disconnect}
                 key={"/login"}
@@ -77,7 +77,6 @@ class Frame extends Component<FrameProps, FrameState> {
         这里是用来跳转
     */
     navigate = (e: any) => {
-        console.log('nav', e)
         this.props.history.push(e.key);
     };
 
@@ -124,7 +123,7 @@ class Frame extends Component<FrameProps, FrameState> {
                         <Spin spinning={this.props.notificationLoading}>
                             <Dropdown overlay={this.menu} trigger={["click", "hover"]}>
                                 <a className="ant-dropdown-link" onClick={e => e.preventDefault()}>
-                                    <Avatar src="https://zos.alipayobjects.com/rmsportal/ODTLcjxAfvqbxHnVXCYX.png"/>
+                                    <Avatar src={this.props.avatar}/>
                                     <span>Welcome {this.props.displayName} </span>
                                     <Badge showZero={false} count={this.props.notificationsUnreadCount} offset={[10, -10]}>
                                         <DownOutlined/>

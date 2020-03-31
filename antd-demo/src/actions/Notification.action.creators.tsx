@@ -35,7 +35,6 @@ export const getNotifications = () => {
         NotificationService
             .getNotifications({})
             .then((data:any) => {
-                console.log(data);
                 dispatch({
                    type:actionType.GET_NOTIFICATIONS,
                     payload: {

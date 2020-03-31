@@ -23,7 +23,7 @@ export default (state = initialState, action: any) => {
     switch (action.type) {
         case ActionTypes.MARK_NOTIFICATION_AS_READ_BY_ID:
             const newList = state.list.map(i => {
-                if(i.id == action.payload.id) {
+                if(i.id === action.payload.id) {
                     i.isRed = true
                 }
                 return i;
