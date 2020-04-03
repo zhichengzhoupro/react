@@ -5,7 +5,7 @@ import {
     NotFound,
     Login,
     Settings,
-    Notification, NoRight
+    Notification, NoRight, Profile,SignUp
 } from '../views'
 
 
@@ -17,6 +17,10 @@ export const mainRoutes = [
     {
         pathName : '/login',
         component: Login
+    },
+    {
+        pathName : '/signup',
+        component: SignUp
     }
 ];
 
@@ -72,6 +76,15 @@ export const adminRoutes: Route[] = [
         title: "Notification",
         iconComponent: () =>  {},
         isNav: false,
+        exact: false,
+        roles: ['001', '002', '003']
+    },
+    {
+        pathName : '/admin/profile',
+        component: Profile,
+        title: "Profile",
+        iconComponent: () =>  import('@ant-design/icons/UserOutlined'),
+        isNav: true,
         exact: false,
         roles: ['001', '002', '003']
     },

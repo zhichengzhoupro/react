@@ -28,6 +28,11 @@ const Login = Loadable({
     Loading: Loading
 })
 
+const SignUp = Loadable({
+    Loader: () => import('./sign-up/SignUp'),
+    Loading: Loading
+})
+
 const Settings = Loadable({
     Loader: () => import('./settings/Settings'),
     Loading: Loading
@@ -40,7 +45,15 @@ const Notification = Loadable({
 const NoRight = Loadable({
     Loader: () => import('./no-right/NoRight'),
     Loading: Loading
-})
+});
+
+const Profile = Loadable({
+    Loader: () => import('./profile/Profile'),
+    Loading: Loading
+});
+
+
+
 
 export {
     DashBoard,
@@ -50,5 +63,7 @@ export {
     Login,
     Settings,
     Notification,
-    NoRight
+    NoRight,
+    Profile,
+    SignUp
 }

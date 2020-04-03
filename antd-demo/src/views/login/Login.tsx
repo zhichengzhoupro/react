@@ -4,10 +4,11 @@ import './login.scss'
 import ActionsDispatcher from "../../actions";
 import {connect} from "react-redux";
 import {Redirect} from "react-router";
+import {RouteComponentProps, withRouter} from "react-router-dom";
 
-interface LoginProps {
+interface LoginProps extends RouteComponentProps{
     isSignIn: boolean,
-    signInDispatch: any
+    signInDispatch: any,
     isSignInLoading?: boolean
 }
 
@@ -18,7 +19,7 @@ class Login extends Component<LoginProps> {
         wrapperCol: {span: 10},
     };
     tailLayout = {
-        wrapperCol: {offset: 7, span: 4},
+        wrapperCol: {offset: 7, span: 8},
     };
 
     onFinish = (values: any) => {
@@ -28,6 +29,10 @@ class Login extends Component<LoginProps> {
     onFinishFailed = (errorInfo: any) => {
         console.log('Failed:', errorInfo);
     };
+
+    toSignUp = () => {
+        this.props.history.push("/signup");
+    }
 
     render() {
         return (
@@ -73,7 +78,10 @@ class Login extends Component<LoginProps> {
 
                                         <Form.Item {...this.tailLayout}>
                                             <Button type="primary" htmlType="submit">
-                                                Submit
+                                                Sign In
+                                            </Button>
+                                            <Button htmlType="button" onClick={this.toSignUp}>
+                                                Sign Up
                                             </Button>
                                         </Form.Item>
                                     </Form>
@@ -100,4 +108,4 @@ const mapDispatchProps = {
 }
 
 
-export default connect(mapToProps, mapDispatchProps)(Login);
+export default withRouter(connect(mapToProps, mapDispatchProps)(Login));

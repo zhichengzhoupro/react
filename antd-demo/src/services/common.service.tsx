@@ -1,33 +1,41 @@
 import axios, {AxiosRequestConfig} from "axios";
 import {message} from "antd";
-
-const isDev = process.env.NODE_ENV === 'development'
+import * as Util from '../common/Util'
 
 const service = axios.create({
-    baseURL: isDev ? 'http://localhost:3000/': ''
+    baseURL: process.env.REACT_APP_SERVER_URL
 });
 
-service.interceptors.request.use((config:AxiosRequestConfig) =>{
-    config.data = Object.assign({}, config.data, {
-        authToken: 'itisourtoken'
-    })
+
+const loadToken = () => {
+    const token = window.localStorage.getItem('accessToken');
+    return token;
+}
+
+service.interceptors.request.use((config: AxiosRequestConfig) => {
+    config.headers = {Authorization: `Bearer ${loadToken()}`}
     return config;
-})
+});
 
 service.interceptors.response.use((resp) => {
 
     return resp.data;
 
-},  (error) => {
+}, (error) => {
     // Do something with response error
     message.error('This is an error message');
+    if(401 === error.status) {
+        Util.removeAuthentificationFromStorage();
+        Util.removeUserInfoFromStorage();
+    }
+
 });
 
 const serviceWithOutInterceptor = axios.create({
-    baseURL: isDev ? 'http://localhost:3000/': ''
+    baseURL: process.env.REACT_APP_SERVER_URL
 });
 
-export  {
+export {
     service,
     serviceWithOutInterceptor
 };

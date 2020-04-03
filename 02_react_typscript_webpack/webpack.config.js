@@ -4,8 +4,8 @@ const HtmlWebpackPlugin = require("html-webpack-plugin");
 const MiniCssExtractPlugin = require("mini-css-extract-plugin");
 
 module.exports = {
-    // Change le point d'entrée en index.tsx
-    entry: "./src/index.tsx",
+    // Change le point d'entrée en index.js
+    entry: "./src/index.js",
     // Active le sourcemap pour le debugging
     devtool: "source-map",
     resolve: {

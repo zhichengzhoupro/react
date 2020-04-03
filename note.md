@@ -489,4 +489,20 @@ class ArticleEdit extends Component<ArticleEditProps, ArticleState> {
 * 游戏 Egret engine2D
 * antv hightcharts d3
 * datav
+
+## react 中由于跳转过快 造成mount还有没有好 setState还在继续进行
+
+结局办法
+```typescript
+  componentWillUnmount(): void {
+        this._isMounted = false
+    }
+
+    componentDidMount(): void {
+        this._isMounted = true;
+        this.getArticles();
+    }
+```
+* 往this里面加一个变量isMount, 在componentWillUnmount 设置成false
+* 在didMount 之后
     

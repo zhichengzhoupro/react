@@ -3,6 +3,7 @@ import './App.css';
 import {BrowserRouter as Router, Route, Switch, Redirect} from 'react-router-dom'
 import {mainRoutes} from './routers/Router'
 import Admin from "./views/admin/Admin";
+import 'react-perfect-scrollbar/dist/css/styles.css';
 
 function App() {
   return (

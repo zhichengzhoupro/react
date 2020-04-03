@@ -17,7 +17,7 @@ interface FrameProps extends RouteComponentProps {
     notificationLoading?: boolean,
     getNotifications?: any
     signOut?: any,
-    avatar?: string,
+    avatarUrl?: string,
     displayName?: string
 }
 
@@ -47,9 +47,9 @@ class Frame extends Component<FrameProps, FrameState> {
                 </Badge>
             </Menu.Item>
             <Menu.Item
-                key={"/admin/settings"}
+                key={"/admin/profile"}
             >
-                Settings
+                Profile
             </Menu.Item>
             <Menu.Item onClick={this.disconnect}
                 key={"/login"}
@@ -114,6 +114,7 @@ class Frame extends Component<FrameProps, FrameState> {
     render() {
         return (
 
+
             <Layout>
                 <Header className="header qf-header">
                     <div className="qf-logo">
@@ -123,7 +124,7 @@ class Frame extends Component<FrameProps, FrameState> {
                         <Spin spinning={this.props.notificationLoading}>
                             <Dropdown overlay={this.menu} trigger={["click", "hover"]}>
                                 <a className="ant-dropdown-link" onClick={e => e.preventDefault()}>
-                                    <Avatar src={this.props.avatar}/>
+                                    <Avatar src={this.props.avatarUrl}/>
                                     <span>Welcome {this.props.displayName} </span>
                                     <Badge showZero={false} count={this.props.notificationsUnreadCount} offset={[10, -10]}>
                                         <DownOutlined/>
@@ -133,57 +134,46 @@ class Frame extends Component<FrameProps, FrameState> {
                         </Spin>
                     </div>
                 </Header>
-                <Layout>
-                    <Sider width={200} className="site-layout-background">
-                        <Menu
-                            mode="inline"
-                            selectedKeys={[this.state.defaultSelectedMenuRoute]}
-                            style={{height: '100%', borderRight: 0}}
-                        >
-                            {
-                                this.props.menus.map((r: Route) => {
-                                        return (
-                                            <Menu.Item key={r.pathName} onClick={this.navigate}>
-                                                {/*
+
+
+                <Sider width={200} className="side-bar site-layout-background">
+                    <Menu
+                        mode="inline"
+                        selectedKeys={[this.state.defaultSelectedMenuRoute]}
+                        style={{height: '100%', borderRight: 0}}
+                    >
+                        {
+                            this.props.menus.map((r: Route) => {
+                                    return (
+                                        <Menu.Item key={r.pathName} onClick={this.navigate}>
+                                            {/*
                                                     这里是导入那些icon
                                                 */}
 
-                                                {
-                                                    this.state.iconComponents.find(ic => ic.pathname === r.pathName) ?
-                                                        this.state.iconComponents.find(ic => ic.pathname === r.pathName).component.render() : ''
-                                                }
-                                                {r.title}
-                                            </Menu.Item>
-                                        )
-                                    }
-                                )
-                            }
+                                            {
+                                                this.state.iconComponents.find(ic => ic.pathname === r.pathName) ?
+                                                    this.state.iconComponents.find(ic => ic.pathname === r.pathName).component.render() : ''
+                                            }
+                                            {r.title}
+                                        </Menu.Item>
+                                    )
+                                }
+                            )
+                        }
 
-                        </Menu>
+                    </Menu>
+                </Sider>
+                <Content
+                    className="qf-content site-layout-background"
+                >
 
+                    {this.props.children}
+                </Content>
 
-                    </Sider>
-                    <Layout style={{padding: '0 24px 24px'}}>
-                        <Breadcrumb style={{margin: '16px 0'}}>
-                            {
-                                this.props.location.pathname.split("/").filter(p => p !== "").map(path => {
-                                    return <Breadcrumb.Item key={path}>{path}</Breadcrumb.Item>
-                                })
-                            }
-                        </Breadcrumb>
-                        <Content
-                            className="site-layout-background"
-                            style={{
-                                padding: 24,
-                                margin: 0,
-                                minHeight: 280,
-                            }}
-                        >
-                            {this.props.children}
-                        </Content>
-                    </Layout>
-                </Layout>
             </Layout>
+
+
+
         );
     }
 }
@@ -192,7 +182,7 @@ const mapToProps: any = (store: any) => {
     return {
         notificationsUnreadCount: store.Notification.list.filter((n: any) => n.isRed === false).length,
         notificationLoading: store.Notification.isLoading,
-        avatar : store.Authentification.avatar,
+        avatarUrl : store.Authentification.avatarUrl,
         displayName : store.Authentification.displayName
     }
 }

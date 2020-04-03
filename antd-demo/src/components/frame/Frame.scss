@@ -3,16 +3,21 @@
   background-color: white;
   height: 120px;
   border-bottom: 1px solid #9197a3;
-
+  position: fixed;
+  top:0;
+  width: 100%;
+  z-index: 100;
 
   .qf-menu {
-    width: 500px
+    width: 500px;
+    position: relative;
   }
   .qf-logo {
     margin: 16px 20px;
     float: left;
     height: 96px;
     width: 80px;
+    position: relative;
     img {
       max-height: 100%;
     }
@@ -26,6 +31,24 @@
     }
   }
 }
+.side-bar {
+
+  overflow: auto;
+  height: 100vh;
+  position: fixed;
+  left: 0;
+  top: 13.5vh;
+}
+
+.qf-content  {
+  padding: 0;
+  margin-top: 13.5vh;
+  margin-left: 22.5vh;
+}
+
 .site-layout-background {
   background-color: #ffffff;
 }
+
+
+

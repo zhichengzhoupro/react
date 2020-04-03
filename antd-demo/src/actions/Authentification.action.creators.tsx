@@ -1,9 +1,9 @@
 import ActionType from "./Action.types";
 import {AuthService} from '../services/service'
-import {removeAuthentificationFromStorage} from'../common/Util'
+import {removeAuthentificationFromStorage, putTokenIntoStorage, putUserInfoIntoStorage} from'../common/Util'
+
 
 export const signIn = (user :{username: string, password: string, remember: boolean}) => {
-    console.log('in');
     return (dispatch: any) => {
         dispatch(startSignIn());
         AuthService
@@ -15,14 +15,8 @@ export const signIn = (user :{username: string, password: string, remember: bool
                         remember : user.remember
                     }));
 
-                    if(user.remember) {
-                        window.localStorage.setItem('accessToken', resp.data.accessToken);
-                        window.localStorage.setItem('userInfo', JSON.stringify(resp.data.userInfo));
-                    } else {
-                        window.sessionStorage.setItem('accessToken', resp.data.accessToken)
-                        window.sessionStorage.setItem('userInfo', JSON.stringify(resp.data.userInfo));
-                    }
-
+                    putTokenIntoStorage(user.remember, resp.data.accessToken);
+                    putUserInfoIntoStorage(user.remember, resp.data.userInfo);
                 }
             }).catch(() => {
             dispatch(signInFailed());
@@ -38,7 +32,7 @@ const startSignIn = () => {
     }
 }
 
-const signSuccess = (data:any) => {
+export const signSuccess = (data:any) => {
     return {
         type: ActionType.SIGN_IN_SUCCESS,
         payload: {
@@ -62,6 +56,8 @@ export const signOut = () => {
         type: ActionType.SIGN_OUT
     }
 }
+
+
 
 
 
