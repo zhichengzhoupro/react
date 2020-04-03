@@ -16,6 +16,8 @@ import Article from "./component/Article";
 import User from "./component/user";
 import ArticleDetail from "./component/Article/ArticleDetail";
 import NotFound from "./views/NotFound";
+import ImmutableButton from "./17_immutable_button";
+import ImmutableExample from "./17_immutable_example";
 
 const user = {
     'name': 'zhicheng',
@@ -56,9 +58,7 @@ class App extends Component {
                     <MobxTest></MobxTest>
                     <ToDoList></ToDoList>
                     <BlogList></BlogList>
-
-
-
+                    <ImmutableExample></ImmutableExample>
 
                 </Provider>
             </CounterProvider>

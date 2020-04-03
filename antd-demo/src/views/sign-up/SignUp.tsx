@@ -41,7 +41,7 @@ class SignUp extends Component<SignUpProps, SignUpState> {
         AuthService.signUp(values).then(() => {
             this.props.history.push("/login");
         }).catch((error: any) => {
-           message.error(error.message);
+           message.error(error.response.data.message, 1);
         }).finally(()=> {
             this.setState({
                 isSignUpLoading: false

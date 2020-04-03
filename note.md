@@ -505,4 +505,22 @@ class ArticleEdit extends Component<ArticleEditProps, ArticleState> {
 ```
 * 往this里面加一个变量isMount, 在componentWillUnmount 设置成false
 * 在didMount 之后
-    
+
+## react reduce 需要返回新的state对象 所以必须要深拷贝
+* 使用JSON.parse(JSON.Stringfy()) 但是这个方法没有办法拷贝function
+* 使用LoadDash 的 DeepCopy方法
+### 使用Immutable 
+* 每次set setIn updateIn 都会返回新的对象 
+* 如果有深层次变动 里面的没有变动的元素 在内存中的地址是不变的
+* 所以对内存的消耗是很低的
+* 想对比两个对象 使用equals 方法
+* 比较
+```javascript 1.6
+state.updateIn(['counter'], (v) => v + 1 )
+
+{
+...state,
+counter: v +1 
+}
+```
+* 简洁很多而且如果state是一个大对象 轻便很多

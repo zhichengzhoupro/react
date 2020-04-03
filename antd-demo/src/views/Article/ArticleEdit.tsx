@@ -71,7 +71,6 @@ class ArticleEdit extends Component<ArticleEditProps, ArticleState> {
 
     componentDidMount(): void {
         ArticleService.getArticleById(this.props.match.params.id).then((response:any) => {
-            console.log(response.createAt);
             this.formRef.current!.setFieldsValue({
                 title: response.title,
                 author: response.author,

@@ -25,7 +25,6 @@ const putUserInfoIntoStorage = (isRememberMe: boolean, userInfo: any) => {
 
 const putTokenIntoStorage = (isRememberMe: boolean, token: string) => {
     if(isRememberMe) {
-        console.log('here', token);
         window.localStorage.setItem('accessToken', token);
     } else {
         window.sessionStorage.setItem('accessToken', token);

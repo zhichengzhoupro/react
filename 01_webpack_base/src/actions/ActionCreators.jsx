@@ -111,4 +111,8 @@ export const fetchBlogList = () => dispatch => {
         }));
         console.log(error);
     })
-}
+};
+
+
+
+

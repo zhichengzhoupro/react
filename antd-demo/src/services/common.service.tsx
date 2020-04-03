@@ -23,8 +23,7 @@ service.interceptors.response.use((resp) => {
 
 }, (error) => {
     // Do something with response error
-    message.error('This is an error message');
-    if(401 === error.status) {
+    if(401 === error.response.status) {
         Util.removeAuthentificationFromStorage();
         Util.removeUserInfoFromStorage();
     }
