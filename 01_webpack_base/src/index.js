@@ -17,6 +17,7 @@ ReactDOM.render(
         <Router>
             <Route component={App} path={"/"}></Route>
         </Router>
+        <Button></Button>
     </React.Fragment>
 
     , document.getElementById('app'));

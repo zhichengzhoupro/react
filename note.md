@@ -524,3 +524,7 @@ counter: v +1
 }
 ```
 * 简洁很多而且如果state是一个大对象 轻便很多
+
+
+# mobx
+![Image description](./img/mobx-flow.png)

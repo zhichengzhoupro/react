@@ -97,8 +97,8 @@ class Login extends Component<LoginProps> {
 
 const mapToProps: any = (store: any) => {
     return {
-        isSignIn: store.Authentification.isSignIn,
-        isSignInLoading: store.Authentification.isSignInLoading
+        isSignIn: store.Authentification.get('isSignIn'),
+        isSignInLoading: store.Authentification.get('isSignInLoading')
     }
 }
 

@@ -31,7 +31,8 @@ class Admin extends Component<AdminProps> {
                                             render={
                                                 (routeProps:any) => {
                                                     const hasPermission = route.roles.includes(this.props.role)
-                                                    return  hasPermission ? <route.component {...routeProps} /> : <Redirect to={"/admin/noright"}></Redirect>
+                                                        return <route.component {...routeProps} />
+                                                    //return  hasPermission ? <route.component {...routeProps} /> : <Redirect to={"/admin/noright"}></Redirect>
                                                 }
                                             }
                                         ></Route>)
@@ -51,8 +52,8 @@ class Admin extends Component<AdminProps> {
 
 const mstp =(store: any) => {
     return {
-        isSignIn :  store.Authentification.isSignIn,
-        role: store.Authentification.role
+        isSignIn :  store.Authentification.get('isSignIn'),
+        role: store.Authentification.get('role')
     }
 }
 

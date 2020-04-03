@@ -189,15 +189,15 @@ class Profile extends Component<ProfileProps, ProfileStates> {
 
 function mapStateToProps(store: any) {
     return {
-        id: store.Authentification.id,
-        username: store.Authentification.username,
-        role: store.Authentification.role,
-        avatarUrl: store.Authentification.avatarUrl,
-        displayName: store.Authentification.displayName,
-        avatarUploading: store.Authentification.avatarUploading,
-        avatarUploadError: store.Authentification.avatarUploadError,
-        avatarChanged: store.Authentification.avatarChanged,
-        userInfoLoading: store.Authentification.userInfoLoading,
+        id: store.Authentification.get('id'),
+        username: store.Authentification.get('username'),
+        role: store.Authentification.get('role'),
+        avatarUrl: store.Authentification.get('avatarUrl'),
+        displayName: store.Authentification.get('displayName'),
+        avatarUploading: store.Authentification.get('avatarUploading'),
+        avatarUploadError: store.Authentification.get('avatarUploadError'),
+        avatarChanged: store.Authentification.get('avatarChanged'),
+        userInfoLoading: store.Authentification.get('userInfoLoading'),
     };
 }
 

@@ -1,4 +1,5 @@
 import ActionTyps from '../actions/Action.types'
+import Immutable from 'immutable'
 
 const isSignIn = (Boolean('accessToken' in window.localStorage ) || Boolean('accessToken' in window.sessionStorage ));
 
@@ -35,7 +36,7 @@ interface AuthentificationState {
 
 }
 
-const initState = {
+const initState: any = Immutable.fromJS({
     ...userInfo(),
 
     isSignIn: isSignIn,
@@ -48,119 +49,113 @@ const initState = {
     userInfoLoading: false,
     userInfoLoaded: false,
     userInfoLoadError: ''
-}
+})
 
 
-export default (state:AuthentificationState = initState, action: any) => {
+export default (state:any = initState, action: any) => {
     switch (action.type) {
         case ActionTyps.SIGN_IN_SUCCESS:
-            return {
-                ...state,
-                ...action.payload.userInfo,
-                isSignIn: true,
-                isSignInLoading: false
-            };
+            const {id, username, avatarUrl, displayName, role, password} = action.payload.userInfo;
+            return state
+                .set('id', id)
+                .set('username', username)
+                .set('avatarUrl', avatarUrl)
+                .set('displayName', displayName)
+                .set('role', role)
+                .set('password', password)
+                .set('isSignIn', true)
+                .set('isSignInLoading', false);
             break;
         case ActionTyps.START_SIGN_IN:
-            return {
-                ...state,
-                isSignIn : false,
-                isSignInLoading: true
-            }
+            return state
+                .set('isSignIn', false)
+                .set('isSignInLoading', true);
             break;
         case ActionTyps.SIGN_IN_FAIL:
-            return {
-                ...state,
-                isSignIn : false,
-                isSignInLoading: false
-            }
+            return state
+                .set('isSignIn', false)
+                .set('isSignInLoading', false);
             break;
         case ActionTyps.SIGN_OUT:
-            return {
-                ...state,
-                isSignIn : false,
-                isSignInLoading: false
-            }
+            return state
+                .set('isSignIn', false)
+                .set('isSignInLoading', false);
+            break;
+        case ActionTyps.START_AVATAR_UPLOAD:
+            return state
+                .set('avatarUploading', true);
+            break;
+        case ActionTyps.AVATAR_UPLOAD_SUCCESS:
+            return state
+                .set('avatarUrl', action.payload.avatarUrl)
+                .set('avatarUploading', false)
+                .set('avatarChanged', true)
             break;
 
-        case ActionTyps.START_AVATAR_UPLOAD:
-            return {
-                ...state,
-                avatarUploading: true
-            }
-            break;
         case ActionTyps.AVATAR_UPLOAD_SUCCESS:
-            const newState ={
-                ...state,
-                ...action.payload,
-                avatarUploading: false,
-                avatarChanged: true,
-            }
-            return newState
-            break;
-        case ActionTyps.AVATAR_UPLOAD_SUCCESS:
-            return {
-                ...state,
-                avatarUploadError: 'error',
-                avatarUploading: false
-            }
+            return state
+                .set('avatarUploadError', 'error')
+                .set('avatarUploading', false);
             break;
         case ActionTyps.START_GET_USERINFO:
-            return {
-                ...state,
-                userInfoLoading: true,
-                userInfoLoaded: false,
-                userInfoLoadError: ''
-            }
+            return state
+                .set('userInfoLoading', true)
+                .set('userInfoLoaded', false)
+                .set('userInfoLoadError', '');
             break
-        case ActionTyps.GET_USERINFO_SUCCESS:
-            return {
-                ...state,
-                ...action.payload.userInfo,
-                userInfoLoading: false,
-                userInfoLoaded: true,
-                userInfoLoadError: ''
-            }
+        case ActionTyps.GET_USERINFO_SUCCESS: {
+            const {id, username, avatarUrl, displayName, role, password} = action.payload.userInfo;
+            return state
+                .set('id', id)
+                .set('username', username)
+                .set('avatarUrl', avatarUrl)
+                .set('displayName', displayName)
+                .set('role', role)
+                .set('password', password)
+                .set('userInfoLoading', false)
+                .set('userInfoLoaded', true)
+                .set('userInfoLoadError', '')
             break;
+        }
+
         case ActionTyps.GET_USERINFO_FAILED:
-            return {
-                ...state,
-                userInfoLoading: false,
-                userInfoLoaded: true,
-                userInfoLoadError: action.payload.error
-            }
+            return state
+                .set('userInfoLoading', false)
+                .set('userInfoLoaded', true)
+                .set('userInfoLoadError', action.payload.error)
             break;
 
 
         case ActionTyps.START_UPDATE_USERINFO:
-            return {
-                ...state,
-                userInfoLoading: true,
-                userInfoLoaded: false,
-                userInfoLoadError: ''
-            }
+            return state
+                .set('userInfoLoading', true)
+                .set('userInfoLoaded', false)
+                .set('userInfoLoadError', '')
             break
-        case ActionTyps.UPDATE_USERINFO_SUCCESS:
-            let newVar = {
-                ...state,
-                ...action.payload.userInfo,
-                userInfoLoading: false,
-                userInfoLoaded: true,
-                userInfoLoadError: '',
-                avatarChanged: false,
-            };
-            return newVar
+        case ActionTyps.UPDATE_USERINFO_SUCCESS: {
+            const {id, username, avatarUrl, displayName, role, password} = action.payload.userInfo;
+            return state
+                .set('id', id)
+                .set('username', username)
+                .set('avatarUrl', avatarUrl)
+                .set('displayName', displayName)
+                .set('role', role)
+                .set('password', password)
+                .set('userInfoLoading', false)
+                .set('userInfoLoaded', true)
+                .set('userInfoLoadError', '')
+                .set('avatarChanged', false)
             break;
+        }
+
+
         case ActionTyps.UPDATE_USERINFO_FAILED:
-            return {
-                ...state,
-                userInfoLoading: false,
-                userInfoLoaded: true,
-                userInfoLoadError: action.payload.error
-            }
+
+            return state
+                .set('userInfoLoading', false)
+                .set('userInfoLoaded', true)
+                .set('userInfoLoadError', action.payload.error)
             break;
-
-
         default:
             return state;
     }

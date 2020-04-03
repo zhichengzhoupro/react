@@ -182,8 +182,8 @@ const mapToProps: any = (store: any) => {
     return {
         notificationsUnreadCount: store.Notification.list.filter((n: any) => n.isRed === false).length,
         notificationLoading: store.Notification.isLoading,
-        avatarUrl : store.Authentification.avatarUrl,
-        displayName : store.Authentification.displayName
+        avatarUrl : store.Authentification.get('avatarUrl'),
+        displayName : store.Authentification.get('displayName')
     }
 }
 
