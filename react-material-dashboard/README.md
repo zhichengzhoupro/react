@@ -78,7 +78,7 @@ material-react-dashboard
 	│	├── Account
 	│	├── Dashboard
 	│	├── Icons
-	│	├── NotFound
+	│	├── NotFound.tsx
 	│	├── ProductList
 	│	├── Settings
 	│	├── SignIn
