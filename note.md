@@ -528,3 +528,26 @@ counter: v +1
 
 # mobx
 ![Image description](./img/mobx-flow.png)
+## 安装
+* mobx 如果想用decorator的话 需要安装 
+```javascript
+npm install --dev customize-cra react-app-rewired
+```
+```
+
+// instead of react-scripts start
+"start": "react-app-rewired start",
+// instead of react-scripts build
+"build": "react-app-rewired build"
+```
+* start和build命令需要修改
+```javascript
+const {addDecoratorsLegacy, useEslintRc, override} = require('customize-cra');
+
+module.exports = override(
+    addDecoratorsLegacy(),
+    useEslintRc('./.eslintrc')
+);
+```
+* 创建一个config-overrides.js
+￿￿￿￿ ￿￿￿
