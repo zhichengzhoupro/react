@@ -529,10 +529,18 @@ counter: v +1
 # mobx
 ![Image description](./img/mobx-flow.png)
 ## 安装
-* mobx 如果想用decorator的话 需要安装 
+* 安装mobx 和 react的整合包 react-mobx
+```javascript
+npm install mobx mobx-react
+```
+
 ```javascript
 npm install --dev customize-cra react-app-rewired
 ```
+* mobx 如果想用decorator的话 需要安装 
+* custom CRA : a set of utilities to customize create-react-app versions 2 and 3 configurations l
+* custom-cra 依赖于 react-app-rewired
+* custom-cra 所有的代码都写在config-overrides.js文件里面
 ```
 
 // instead of react-scripts start
@@ -550,4 +558,34 @@ module.exports = override(
 );
 ```
 * 创建一个config-overrides.js
-￿￿￿￿ ￿￿￿
+
+### mobx的使用
+#### 创建store的第一种方法
+##### 1. 新建一个类
+##### 2. 使用@observable 装饰这个类里面需要被监听的属性
+##### 3. 创建这个类的实例,那么这个实例就是一个store 
+##### 4. 使用@ation 来装饰修改被监听属性的方法
+##### 5. 使用@computed 来装饰被监听属性在被修改之后自动执行的方法
+##### 6. 使用configure({enforceActions: true}) 那么这些被监听的属性将无法被直接修改 必须使用action
+￿￿￿￿ 
+#### 创建store的第2种方法￿￿￿
+##### 1. 使用observable方法 传入一个对象 
+##### 2. 该对象包括所有被监听的属性
+##### 3. 然后加上所有的action
+```javascript 1.6
+const appState = observable({
+    count: 0
+});
+
+appState.increment = function () {
+    this.count++
+}
+
+appState.decrement = function () {
+    this.count--
+}
+```
+#### 注意如果有很多的action都触发 
+
+#### 创建一个被监听数组￿
+

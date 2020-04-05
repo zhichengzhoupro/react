@@ -53,15 +53,18 @@ class ArticleList extends Component<ArticleProps, Partial<ArticleState>> impleme
             offset: this.state.offset,
             limited: this.state.limited
         },).then((resp: any) => {
-            const columnKeys = Object.keys(resp.list[0]);
-            const columns = this.getColumns(columnKeys);
-            if (this._isMounted) {
-                this.setState({
-                    dataSource: resp.list,
-                    columns: columns,
-                    total: resp.total,
-                    isLoading: false
-                })
+            if (resp.list && resp.list.length > 0) {
+                const columnKeys = Object.keys(resp.list[0]);
+                const columns = this.getColumns(columnKeys);
+
+                if (this._isMounted) {
+                    this.setState({
+                        dataSource: resp.list,
+                        columns: columns,
+                        total: resp.total,
+                        isLoading: false
+                    })
+                }
             }
         }).finally(() => {
             if (this._isMounted) {

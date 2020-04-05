@@ -68,7 +68,8 @@ class DashBoard extends Component<DashBoardProps, DashBoardState> {
 
                     },
                     isLoading: false
-                })
+                });
+                console.log('this.state.firstNumbers', this.state.firstNumbers)
             }
         )
     }
@@ -85,10 +86,10 @@ class DashBoard extends Component<DashBoardProps, DashBoardState> {
                         <Col className="gutter-row" span={6}>
                             <div className='qf-col-box' style={{backgroundColor: getRandomInt()}}>
 
-                                { this.state.firstNumbers ?
+                                { this.state.firstNumbers &&  this.state.firstNumbers.length > 0 ?
                                     <Fragment>
                                         <TwitterOutlined  style={{ fontSize: '36px' }}/>
-                                        {this.state.firstNumbers[0].amount}
+                                        {this.state.firstNumbers ? this.state.firstNumbers[0].amount:''}
 
                                     </Fragment>:
                                     ''
@@ -99,11 +100,10 @@ class DashBoard extends Component<DashBoardProps, DashBoardState> {
                         <Col className="gutter-row" span={6}>
                             <div className='qf-col-box' style={{backgroundColor: getRandomInt()}}>
 
-                                { this.state.firstNumbers ?
+                                { this.state.firstNumbers &&  this.state.firstNumbers.length > 0?
                                     <Fragment>
                                         <AlipayOutlined style={{ fontSize: '36px' }} />
-                                        {this.state.firstNumbers[1].amount}
-
+                                        {this.state.firstNumbers ? this.state.firstNumbers[1].amount:''}
                                     </Fragment>:
                                     ''
                                 }
@@ -113,10 +113,10 @@ class DashBoard extends Component<DashBoardProps, DashBoardState> {
                         <Col className="gutter-row" span={6}>
                             <div className='qf-col-box' style={{backgroundColor: getRandomInt()}}>
 
-                                { this.state.firstNumbers ?
+                                { this.state.firstNumbers &&  this.state.firstNumbers.length > 0 ?
                                     <Fragment>
                                         <WechatOutlined style={{ fontSize: '36px' }}/>
-                                        {this.state.firstNumbers[2].amount}
+                                        {this.state.firstNumbers ? this.state.firstNumbers[2].amount:''}
                                     </Fragment>:
                                     ''
                                 }
@@ -125,10 +125,10 @@ class DashBoard extends Component<DashBoardProps, DashBoardState> {
                         </Col>
                         <Col className="gutter-row" span={6}>
                             <div className='qf-col-box' style={{backgroundColor: getRandomInt()}}>
-                                { this.state.firstNumbers ?
+                                { this.state.firstNumbers &&  this.state.firstNumbers.length > 0 ?
                                     <Fragment>
                                         <YoutubeOutlined style={{ fontSize: '36px' }}/>
-                                        <span className={'amount'}>{this.state.firstNumbers[3].amount}</span>
+                                        {this.state.firstNumbers ? this.state.firstNumbers[3].amount:''}
                                     </Fragment>:
                                     ''
                                 }
