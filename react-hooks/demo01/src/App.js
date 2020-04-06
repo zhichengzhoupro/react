@@ -1,5 +1,5 @@
-import React, {Fragment} from 'react';
-import {BrowserRouter as Router, Route, Link, Switch} from "react-router-dom";
+import React from 'react';
+import {BrowserRouter as Router, Link, Route, Switch} from "react-router-dom";
 import './App.css';
 import Example from "./component/Example";
 import Example2 from "./component/Example02";
@@ -25,17 +25,18 @@ function App() {
             <ul>
                 <li><Link to={'/'}>Acceuil</Link> </li>
                 <li><Link to={'/list'}>list</Link></li>
-                <li><Link to={'/example2'}>example2</Link></li>
+                <li><Link to={'/Example2'}>example2</Link></li>
+                <li><Link to={'/Example3'}>example3</Link></li>
+                <li><Link to={'/Example4'}>example4</Link></li>
             </ul>
             <Switch>
                 <Route component={index} exact path={"/"}/>
-                <Route component={index} exact path={"/"}/>
+                <Route component={index} exact path={"/list"}/>
+                <Route component={Example} exact path={"/Example"}/>
+                <Route component={Example2} exact path={"/Example2"}/>
+                <Route component={Example3} exact path={"/Example3"}/>
+                <Route component={Example4} exact path={"/Example4"}/>
             </Switch>
-
-            <Example/>
-            <Example2/>
-            <Example3/>
-            <Example4/>
         </Router>
     );
 }
