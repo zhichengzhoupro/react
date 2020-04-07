@@ -32,12 +32,8 @@ function App() {
             <button onClick={() => t.setTemperatureCelsius("K")}>°C</button>
 
             <br/><br/>
-
             <TemperaturesComponent temperatures={temps}></TemperaturesComponent>
-
-
             <br/><br/>
-
             <TemperatureInput temperatures={temperatures}></TemperatureInput>
         </Fragment>
     );

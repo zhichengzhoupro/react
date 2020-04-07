@@ -10,11 +10,11 @@ class Example4 extends Component {
     }
 
     componentDidMount() {
-        console.log(`componentDidMount => you clicked ${this.state.count}`)
+        console.log(`Example 4 componentDidMount => you clicked ${this.state.count}`)
     }
 
     componentDidUpdate = () => {
-        console.log(`componentDidUpdate => you clicked ${this.state.count}`)
+        console.log(`Example 4 componentDidUpdate => you clicked ${this.state.count}`)
     };
 
     render() {

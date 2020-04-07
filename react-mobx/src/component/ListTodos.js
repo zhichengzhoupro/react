@@ -29,6 +29,9 @@ class ListTodos extends Component {
         }
     }
 
+    shouldComponentUpdate(nextProps, nextState, nextContext) {
+    }
+
     render() {
         return (
             <Fragment>

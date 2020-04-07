@@ -1,11 +1,11 @@
 import React, { useState, Fragment, useEffect} from 'react';
 
 function Example() {
-    const [count, setCount] = useState(0)
+    const [count, setCount] = useState(0);
 
     useEffect(() => {
         console.log(`useEffect => you clicked ${count}`)
-    })
+    });
 
     return (
         <Fragment>
