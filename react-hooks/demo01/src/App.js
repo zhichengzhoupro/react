@@ -10,6 +10,7 @@ import Example6 from "./component/Example6";
 import Example7 from "./component/example7/Example7";
 import Example8 from "./component/example8/Parent";
 import Example9 from "./component/example9/Example9";
+import Example10 from "./component/example10/Example10";
 
 
 const Index = () => {
@@ -51,6 +52,7 @@ function App() {
                     <li><Link to={'/Example7'}>example7</Link></li>
                     <li><Link to={'/Example8'}>example8</Link></li>
                     <li><Link to={'/Example9'}>example9</Link></li>
+                    <li><Link to={'/Example10'}>example10</Link></li>
                 </ul>
             </div>
             <div className={'demo-container'}>
@@ -66,6 +68,7 @@ function App() {
                     <Route component={Example7} path={"/Example7"}/>
                     <Route component={Example8} path={"/Example8"}/>
                     <Route component={Example9} path={"/Example9"}/>
+                    <Route component={Example10} path={"/Example10"}/>
                 </Switch>
             </div>
         </Router>
