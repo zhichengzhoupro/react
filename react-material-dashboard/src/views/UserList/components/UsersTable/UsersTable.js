@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, {useEffect, useState} from 'react';
 import clsx from 'clsx';
 import PropTypes from 'prop-types';
 import moment from 'moment';
@@ -92,9 +92,13 @@ const UsersTable = props => {
     setRowsPerPage(event.target.value);
   };
 
+
+  useEffect(()=>{
+    console.log(props);
+  });
   return (
     <Card
-      {...rest}
+
       className={clsx(classes.root, className)}
     >
       <CardContent className={classes.content}>

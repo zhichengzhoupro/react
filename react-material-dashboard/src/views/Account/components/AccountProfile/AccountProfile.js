@@ -47,6 +47,10 @@ const AccountProfile = props => {
     avatar: '/images/avatars/avatar_11.png'
   };
 
+  const uploadAvatar = function () {
+    console.log('upload');
+  };
+
   return (
     <Card
       {...rest}
@@ -78,8 +82,11 @@ const AccountProfile = props => {
           </div>
           <Avatar
             className={classes.avatar}
+            onClick={uploadAvatar}
             src={user.avatar}
           />
+
+
         </div>
         <div className={classes.progress}>
           <Typography variant="body1">Profile Completeness: 70%</Typography>
