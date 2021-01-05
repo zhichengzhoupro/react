@@ -33,7 +33,7 @@
     "@material-ui/icons": "^4.9.1",
     "@nestjs/cli": "^6.14.2",
     "antd": "^4.0.3",
-    "axios": "^0.19.2",
+    "axios": "^0.21.1",
     "global": "^4.4.0",
     "immutable": "^4.0.0-rc.12",
     "mobx": "^5.15.4",
